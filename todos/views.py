@@ -1,6 +1,7 @@
 # views.py
 
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Todo
@@ -17,3 +18,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class TodoListView(ListView):
+    model = Todo
+    template_name = 'todos/index.html'
+    context_object_name = 'todos' 

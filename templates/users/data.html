@@ -1,0 +1,25 @@
+{% extends 'shared.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto p-8 bg-white shadow-md rounded-lg">
+    <h1 class="text-3xl font-bold mb-4">Fill User Info</h1>
+    {% if users %}
+        <ul class="user-info-list">
+            {% for user in users %}
+                <li class="mb-4">
+                    <span class="font-semibold">{{ user.name }}</span> - 
+                    <span>{{ user.height }}cm</span> - 
+                    <span>{{ user.weight }}kg</span> - 
+                    <span>{{ user.exercise }}</span>
+                </li>
+                <li>BMI: {{ user.bmi|floatformat:2 }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <form method="post" action="{% url 'users:data'%}" class="space-y-4">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,11 +1,15 @@
 {% extends 'shared.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <div class="max-w-xl mx-auto p-8 bg-white shadow-md rounded-lg">
-    <h1 class="text-3xl font-bold mb-4">TO-EAT 飲食紀錄</h1>
+    <h1 class="text-3xl font-bold mb-4 text-center">TO-EAT</h1>
+    <img src="{% static 'img/food.jpeg' %}" alt="">
     <p class="text-gray-600 mb-4">{{ request.user }}的飲食紀錄</p>
     <form method="post" action="{% url 'todos:create'%}" class="space-y-4">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">提交</button>
     </form>
 </div>

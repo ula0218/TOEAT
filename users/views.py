@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView,CreateView
@@ -6,7 +7,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.list import ListView
 from django.shortcuts import redirect
 from .models import User
-from .forms import CustomUserForm
+from django.contrib.auth import logout, login,authenticate
+from .forms import CustomUserForm,CustomLoginForm
 
 class UserHomeView(TemplateView):
     template_name = 'users/home.html'
@@ -16,12 +18,15 @@ class UserRegisterView(FormView):
     success_url = reverse_lazy("todos:create") 
 
     def form_valid(self, form):
-        form.save()
-        return redirect(self.get_success_url())
+        user = form.save()
+        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password2'])
+        if user:
+            login(self.request, user)
+        return super().form_invalid(form)
     
 class UserLoginView(LoginView):
     template_name = "users/login.html"
-    redirect_authenticated_user = True
+    form_class = CustomLoginForm
 
     def get_success_url(self):
         return reverse_lazy("users:home")

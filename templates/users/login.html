@@ -1,8 +1,26 @@
 {% extends 'shared.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
 {% block content %}
-    <form method="post" action="{% url 'users:login'%}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">提交</button>
-    </form>
+    <div class="container mx-auto flex flex-col justify-center items-center max-w-lg pt-16">
+        <div class='header-bar flex justify-center items-center bg-pink-400 text-white p-4 rounded-t-md w-full'>
+            <h2>登入</h2>
+        </div>
+        <div class="task-items-wrapper flex flex-col w-full">
+            <div class=" container task-wrapper flex justify-center items-center py-4 px-6 bg-white border-t border-gray-300 w-full">
+                <form method="post" class="w-full max-w-lg" action="{% url 'users:login'%}">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <br>
+                    <div class="mb-4">
+                        <div class="flex justify-end">
+                            <button type="submit" class="button border border-blue-600 bg-white text-blue-600 px-4 py-2 hover:bg-blue-600 hover:text-white rounded">登入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <small><a href="{% url 'users:register' %}" class="text-blue-600 hover:underline">前往註冊</a></small>
+    </div>
 {% endblock %}

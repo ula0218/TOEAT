@@ -15,6 +15,11 @@ class TodoForm(forms.ModelForm):
         required=True,
     )
 
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), 
+        required=False,
+    )
+
     time = forms.DateTimeField(
         widget=forms.DateInput(attrs={"type": "time"}), 
         input_formats=["%H:%M"],
@@ -35,6 +40,7 @@ class TodoForm(forms.ModelForm):
     field_labels = {
         "type": "餐別",
         "hungry": "飽足感",
+        "date":"日期",
         "time": "用餐時間",
         "food":"餐點",
         "category": "種類",

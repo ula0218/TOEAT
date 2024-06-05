@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     'todos',
     'users',
+    'events',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"

@@ -1,5 +1,7 @@
 # views.py
-
+from datetime import datetime
+from django.http import JsonResponse
+from django.views import View
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -24,11 +26,21 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 class TodoListView(ListView):
     model = Todo
     template_name = 'todos/index.html'
-    context_object_name = 'todos' 
+    context_object_name = 'todos'
 
     def get_queryset(self):
         user = self.request.user
+        start_date = self.request.GET.get('startDate')
+        end_date = self.request.GET.get('endDate')
+
         queryset = Todo.objects.filter(user=user)
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date, '%Y-%m-%d')
+            queryset = queryset.filter(date__range=(start_date, end_date))
+        else:
+            queryset = Todo.objects.none() #沒填日期範圍時，返回空的
+
         return queryset
     
     def get_context_data(self, **kwargs):
@@ -41,4 +53,5 @@ class TodoListView(ListView):
                 grouped_todos[date] = []
             grouped_todos[date].append(todo)
         context['grouped_todos'] = grouped_todos
+        context['filter_applied'] = self.request.GET.get('startDate') and self.request.GET.get('endDate')
         return context

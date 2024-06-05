@@ -8,21 +8,24 @@ from django.views.generic.list import ListView
 from django.shortcuts import redirect
 from .models import User
 from django.contrib.auth import logout, login,authenticate
-from .forms import CustomUserForm,CustomLoginForm
+from .forms import CustomUserForm,CustomLoginForm,CustomUserCreationForm
+
 
 class UserHomeView(TemplateView):
     template_name = 'users/home.html'
     
-class UserRegisterView(FormView):
+class UserRegisterView(CreateView):
     template_name = 'users/register.html'
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy("todos:create") 
 
     def form_valid(self, form):
+        response = super().form_valid(form)
+    
         user = form.save()
-        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password2'])
-        if user:
-            login(self.request, user)
-        return super().form_invalid(form)
+        login(self.request, user)
+        
+        return response
     
 class UserLoginView(LoginView):
     template_name = "users/login.html"

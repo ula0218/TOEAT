@@ -30,6 +30,7 @@ class Todo(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     type = models.CharField(max_length=10, choices=TYPES_CHOICES)
     hungry = models.CharField(max_length=10, choices=HUNGRY_CHOICES)
+    date = models.DateField(null=True)
     time = models.DateTimeField(auto_now_add=True)
     food = models.CharField(max_length=200, null=True, blank=True)
     category = models.ManyToManyField('Category', related_name='todos')

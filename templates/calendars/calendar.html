@@ -1,0 +1,36 @@
+{% extends "shared.html" %}
+{% load static %}
+{% block content %}
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div class="md:w-3/4 lg:w-1/2 xl:w-2/3 p-6 bg-white rounded-lg shadow-lg">
+        <div id='calendar-container'></div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendarEl = document.getElementById('calendar-container');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridWeek', 
+            locale: 'zh-cn',
+            height: 600,
+            eventContent: function(arg) {
+                return {
+                    html:'<div style="white-space: nowrap; margin-bottom: 20px;">' + 
+                            arg.event.title.split('\n').join('<br>') + 
+                        '</div>'
+                };
+            },
+            events: [
+                {% for todo in todos %}
+                {
+                    title: "{{ todo.food }}\n{{ todo.get_type_display }}\n{{ todo.get_hungry_display}}", 
+                    start: "{{ todo.date|date:"Y-m-d" }}",  
+                },
+                {% endfor %}
+            ]
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

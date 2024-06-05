@@ -6,10 +6,9 @@
         <ul class="flex flex-col space-y-4 text-gray-800 text-center">
             <img src="{% static 'img/logo.png' %}" class="w-40 mr-2 opacity-75 hidden lg:block">
             <li><a href="{% url 'users:home'%}" class="hover:text-blue-500 text-lg font-semibold">使用者首頁</a></li>
-            <li><a href="{% url 'users:data'%}" class="hover:text-blue-500 text-lg font-semibold">個人資料</a></li>
+            <li><a href="{% url 'users:data'%}" class="hover:text-blue-500 text-lg font-semibold">身材紀錄</a></li>
             <li><a href="{% url 'todos:create'%}" class="hover:text-blue-500 text-lg font-semibold">飲食紀錄</a></li>
             <li><a href="{% url 'todos:list'%}" class="hover:text-blue-500 text-lg font-semibold">查看飲食</a></li>
-            <li><a href="{% url 'events:view' %}" class="hover:text-blue-500 text-lg font-semibold">飲食行事曆</a></li>
         </ul>
     </nav>
     <div class="flex-grow p-6">
@@ -41,7 +40,7 @@
             events: [
                 {% for todo in todos %}
                 {
-                    title: "{{ todo.food }}\n{{ todo.get_type_display }}\n{{ todo.get_hungry_display}}",
+                    title: "{{ todo.food }}\n{{ todo.get_type_display }}\n{{ todo.get_hungry_display }}",
                     start: "{{ todo.date|date:"Y-m-d" }}",
                     textColor: 'black',
                     backgroundColor: '#66CCCC',

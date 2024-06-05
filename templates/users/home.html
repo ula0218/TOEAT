@@ -1,27 +1,29 @@
 {% extends 'shared.html' %}
-
+{% load static %}
 {% block content %}
-<div class="max-w-xl mx-auto shadow-lg">
-    <nav class="bg-blue-500 p-4">
-        <ul class="flex space-x-4 text-white">
-            <li><a href="{% url 'users:data'%}">個人資料</a></li>
-            <li><a href="{% url 'todos:create'%}">飲食紀錄</a></li>
-            <li><a href="{% url 'todos:list'%}">查看飲食</a></li>
-            <li><a href="{% url 'events:view' %}">飲食行事曆</a></li>
-        </ul>
-    </nav>
-
-    <div class="container mx-auto mt-8">
-        <div class="text-center">
-            <h1 class="text-2xl font-bold mb-4">歡迎回來，{{ request.user }}</h1>
-
+<div class="max-w-screen-lg mx-auto flex flex-col lg:flex-row items-stretch shadow-lg">
+    <nav class="bg-gray-200 p-4 flex flex-col justify-center lg:w-1/3 ">
+        <ul class="flex flex-col space-y-4 text-gray-800 text-center">
+            <li><a href="{% url 'users:data'%}" class="hover:text-blue-500 text-lg font-semibold">個人資料</a></li>
+            <li><a href="{% url 'todos:create'%}" class="hover:text-blue-500 text-lg font-semibold">飲食紀錄</a></li>
+            <li><a href="{% url 'todos:list'%}" class="hover:text-blue-500 text-lg font-semibold">查看飲食</a></li>
+            <li><a href="{% url 'events:view' %}" class="hover:text-blue-500 text-lg font-semibold">飲食行事曆</a></li>
             <form method="post" action="{% url 'users:logout'%}" class="inline">
                 {% csrf_token %}
                 {{ form }}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">登出</button>
+                <button type="submit" class="hover:text-blue-500 text-lg font-semibold">登出</button>
             </form>
+        </ul>
+    </nav>
+    <div class="bg-white p-8 flex-grow">
+        <div class="text-center">
+            <div class="text-center mb-8">
+                <img src="{% static 'img/logo.png' %}" alt="Profile Image" class=" mx-auto rounded-full mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">{{ request.user }}</h2>
+                <p class="text-gray-600">Welcome back!</p>
+            </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
+

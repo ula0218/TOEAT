@@ -4,8 +4,16 @@
 <div class="min-h-screen bg-gray-100 flex items-center justify-center">
     <div class="md:w-3/4 lg:w-1/2 xl:w-2/3 p-6 bg-white rounded-lg shadow-lg">
         <div id='calendar-container'></div>
+        <img src="{% static 'img/logo.png' %}" class="w-40 mr-2">
     </div>
 </div>
+<style>
+    .fc-event {
+        border-width: 5px ;
+        border-color: #c2d1f4;
+        border-radius: 10px; 
+    }
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -26,9 +34,12 @@
                 {
                     title: "{{ todo.food }}\n{{ todo.get_type_display }}\n{{ todo.get_hungry_display}}", 
                     start: "{{ todo.date|date:"Y-m-d" }}",  
+                    textColor : 'black',
+                    backgroundColor:'#66CCCC',
                 },
                 {% endfor %}
-            ]
+            ],
+            editable: true,
         });
         calendar.render();
     });

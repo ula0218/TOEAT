@@ -1,11 +1,11 @@
 from django import forms
-from .models import User
+from .models import Record
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 
 class CustomUserForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = Record
         fields = ['name', 'height', 'weight', 'exercise']
 
 class CustomLoginForm(AuthenticationForm):

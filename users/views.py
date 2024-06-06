@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from .models import User
+from .models import Record
 from django.contrib.auth import login
 from .forms import CustomUserForm,CustomLoginForm,CustomUserCreationForm
 
@@ -34,17 +34,22 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy("users:login")
 
 class UserDataCreateView(CreateView):
-    model = User
+    model = Record
     form_class = CustomUserForm
     template_name = 'users/data.html' 
     success_url = reverse_lazy('todos:create')
 
+    def form_valid(self, form):
+        user_id = self.request.user.id
+        form.instance.user_id = user_id
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        users = User.objects.all()
+        users = Record.objects.filter(user_id=self.request.user.id)
+        context['users'] = users
         for user in users:
             user.bmi = calculate_bmi(user.height, user.weight)
-        context['users'] = users
         return context
     
 def calculate_bmi(height, weight):

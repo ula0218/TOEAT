@@ -1,0 +1,11 @@
+{% extends 'shared.html' %}
+{% load static %}
+{% block content %}
+{{request.user}}
+<h1>今天想吃什麼？</h1>
+<form method="post" action="{% url 'menus:create'%}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">送出</button>
+</form>
+{% endblock %}

@@ -1,13 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView,CreateView
+from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.list import ListView
-from django.shortcuts import redirect
 from .models import User
-from django.contrib.auth import logout, login,authenticate
+from django.contrib.auth import login
 from .forms import CustomUserForm,CustomLoginForm,CustomUserCreationForm
 
 

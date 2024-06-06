@@ -17,7 +17,8 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        user_id = self.request.user.id
+        form.instance.user_id = user_id
         return super().form_valid(form)
     
     def get_success_url(self):

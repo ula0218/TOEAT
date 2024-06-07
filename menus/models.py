@@ -16,3 +16,4 @@ class Menu(models.Model):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)

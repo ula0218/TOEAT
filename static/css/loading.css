@@ -1,34 +1,45 @@
-#map-loading{
-    width: 50%; 
-    height: 100vh; 
-    display: flex; 
-    justify-content: center; 
+/* loading.css */
+#map-loading {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 600px; 
 }
 
-#map{
-    width: 50%; 
-    height: 100vh; 
-    display: none;
-}
-
-.loading-spinner {
-    width: 100px;
+.loading-bar {
+    width: 80px; 
     height: 10px;
+    background: #ccc;
+    position: relative;
     overflow: hidden;
-    margin: auto;
+    margin-top: 20px;
 }
 
-.loading-spinner::after {
+.loading-bar::before {
     content: '';
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 0;
     height: 100%;
-    background-color: #555;
-    animation: progress 2s linear infinite;
+    background: #555;
+    animation: loading 2s linear infinite;
 }
 
-@keyframes progress {
-    0% { width: 0; }
-    100% { width: 100%; }
+@keyframes loading {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+.logo {
+    width: 200px; 
 }

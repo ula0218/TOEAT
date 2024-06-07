@@ -8,7 +8,6 @@
             <li><a href="{% url 'todos:create'%}" class="hover:text-blue-500 text-lg font-semibold">飲食紀錄</a></li>
             <li><a href="{% url 'todos:list'%}" class="hover:text-blue-500 text-lg font-semibold">查看飲食</a></li>
             <li><a href="{% url 'events:view' %}" class="hover:text-blue-500 text-lg font-semibold">飲食行事曆</a></li>
-            <li><a href="{% url 'menus:map' %}"class="hover:text-blue-500 text-lg font-semibold">地圖</a></li>
             <form method="post" action="{% url 'users:logout'%}" class="inline">
                 {% csrf_token %}
                 {{ form }}

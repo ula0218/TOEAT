@@ -1,7 +1,7 @@
 # forms.py
 
 from django import forms
-from .models import Todo, Category
+from .models import Todo
 
 class TodoForm(forms.ModelForm):
 
@@ -25,12 +25,6 @@ class TodoForm(forms.ModelForm):
         input_formats=["%H:%M"],
         required=False,
     )
-
-    category = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
     
     directions = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 4}),  
@@ -43,7 +37,6 @@ class TodoForm(forms.ModelForm):
         "date":"日期",
         "time": "用餐時間",
         "food":"餐點",
-        "category": "種類",
         "directions": "描述",
     }
     

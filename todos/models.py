@@ -33,17 +33,4 @@ class Todo(models.Model):
     date = models.DateField(null=True)
     time = models.DateTimeField(auto_now_add=True)
     food = models.CharField(max_length=200, null=True, blank=True)
-    category = models.ManyToManyField('Category', related_name='todos')
     directions = models.CharField(max_length=200, null=True, blank=True)
-
-class Category(models.Model):
-    CATEGORY_CHOICES = [
-        ("1", "五榖根莖類"),
-        ("2", "蔬菜類"),
-        ("3", "水果類"),
-        ("4", "蛋豆魚肉類"),
-        ("5", "奶類"),
-        ("6", "油脂類"),
-    ]
-    name = models.CharField(max_length=200, choices=CATEGORY_CHOICES)
-

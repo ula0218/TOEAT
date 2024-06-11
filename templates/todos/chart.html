@@ -1,0 +1,48 @@
+{% extends 'shared.html' %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="max-w-screen-lg mx-auto flex flex-col lg:flex-row items-stretch shadow-lg">
+    <nav class="bg-gray-200 p-4 flex flex-col justify-center lg:w-1/3">
+        <ul class="flex flex-col space-y-4 text-gray-800 text-center">
+            <li><a href="{% url 'users:data'%}" class="hover:text-blue-500 text-lg font-semibold">身材紀錄</a></li>
+            <li><a href="{% url 'todos:create'%}" class="hover:text-blue-500 text-lg font-semibold">飲食紀錄</a></li>
+            <li><a href="{% url 'todos:list'%}" class="hover:text-blue-500 text-lg font-semibold">查看飲食</a></li>
+            <li><a href="{% url 'events:view' %}" class="hover:text-blue-500 text-lg font-semibold">飲食行事曆</a></li>
+            <li><a href="{% url 'menus:map' %}" class="hover:text-blue-500 text-lg font-semibold">搜尋美食地圖</a></li>
+            <form method="post" action="{% url 'users:logout'%}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="hover:text-blue-500 text-lg font-semibold">登出</button>
+            </form>
+        </ul>
+    </nav>
+    <div class="bg-white p-8 flex-grow">
+        <div id="chart-container"></div>
+        <div id="details-container" class="mt-8">
+            <h2 class="text-2xl font-bold">點擊查看飲食記錄</h2>
+            <hr>
+            <ul id="details-list" class="list-disc pl-6"></ul>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var chartData = {{ chart_json|safe }};
+        Plotly.newPlot('chart-container', chartData.data, chartData.layout);
+
+        var chartContainer = document.getElementById('chart-container');
+        chartContainer.on('plotly_click', function(data) {
+            var details = data.points[0].customdata;
+            var detailsList = document.getElementById('details-list');
+            detailsList.innerHTML = '';
+
+            details.forEach(function(record) {
+                var listItem = document.createElement('li');
+                listItem.textContent = `食物: ${record.food}, 類型: ${record.type},飽足感: ${record.hungry}`;
+                detailsList.appendChild(listItem);
+            });
+        });
+    });
+</script>
+{% endblock %}

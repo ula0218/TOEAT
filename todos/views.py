@@ -67,7 +67,7 @@ class TodoStatsView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # 日期
-        date_counts = Todo.objects.annotate(date_annotated=TruncDate('date')).values('date_annotated').annotate(total=Count('id')).order_by('date_annotated')
+        date_counts = Todo.objects.filter(user=self.request.user).annotate(date_annotated=TruncDate('date')).values('date_annotated').annotate(total=Count('id')).order_by('date_annotated')
         dates = [item['date_annotated'].strftime('%Y/%m/%d') for item in date_counts]
         date_totals = [item['total'] for item in date_counts]
 
@@ -75,7 +75,7 @@ class TodoStatsView(TemplateView):
         date_details = {}
         for item in date_counts:
             date_str = item['date_annotated'].strftime('%Y/%m/%d')
-            records = Todo.objects.filter(date=item['date_annotated'])
+            records = Todo.objects.filter(user=self.request.user, date=item['date_annotated'])
             date_details[date_str] = [{'food': record.food, 'type': dict(Todo.TYPES_CHOICES)[record.type],'hungry': dict(Todo.HUNGRY_CHOICES)[record.hungry]} for record in records]
 
         # 圖表對象

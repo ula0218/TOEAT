@@ -16,20 +16,10 @@ RUN apk add --no-cache \
     mysql-dev \
     pkgconfig
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-
-# Ensure Poetry's bin directory is in PATH
-ENV PATH="/root/.local/bin:${PATH}"
-
-# Copy pyproject.toml and poetry.lock to the working directory
-COPY pyproject.toml poetry.lock* /usr/src/app/
-
-# Install dependencies
-RUN poetry install --no-root
-
 # Copy the rest of the application code
 COPY . /usr/src/app/
+
+RUN pip install -r /usr/src/app/requirements.txt
 
 # Expose the port the app runs on
 EXPOSE 80
@@ -41,5 +31,5 @@ COPY entrypoint.sh /usr/src/app/
 RUN chmod +x /usr/src/app/entrypoint.sh
 
 # Run the entrypoint script
-# CMD ["/usr/src/app/entrypoint.sh"]
-CMD ["sh"]
+CMD ["/usr/src/app/entrypoint.sh"]
+# CMD ["sh"]
